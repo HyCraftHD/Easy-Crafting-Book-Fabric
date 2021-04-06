@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "easy_crafting_book",
+	"version": "${version}",
+	"name": "Easy Crafting Book",
+	"description": "Easy crafting book",
+	"authors": [
+		"HyCraftHD"
+	],
+	"contact": {
+		"homepage": "https://www.hycrafthd.net",
+		"sources": "https://www.hycrafthd.net/still_not_released"
+	},
+	"license": "Apache 2.0",
+	"icon": "assets/easy_crafting_book/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"net.hycrafthd.easy_crafting_book.EasyCraftingBookMod"
+		],
+		"modmenu": [
+			"net.hycrafthd.easy_crafting_book.EasyCraftingBookMenu"
+		]
+	},
+	"mixins": [
+		"easy_crafting_book.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.7.4",
+		"minecraft": "1.16.x"
+	},
+	"custom": {
+		"modmenu": {}
+	}
+}

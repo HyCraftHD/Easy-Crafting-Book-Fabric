@@ -1,0 +1,16 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "net.hycrafthd.easy_crafting_book.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [],
+	"client": [
+		"ScreenHandlerMixin",
+		"ClientPlayerInteractionManagerMixin",
+		"KeyBindingMixin",
+		"RecipeBookResultsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
