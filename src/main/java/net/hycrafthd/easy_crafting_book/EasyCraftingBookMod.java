@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
@@ -12,7 +13,7 @@ import net.hycrafthd.easy_crafting_book.mixin.KeyBindingMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookResults;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.InputUtil.Type;
 import net.minecraft.item.ItemStack;
@@ -77,8 +78,7 @@ public class EasyCraftingBookMod implements ClientModInitializer {
 				minecraft.interactionManager.clickSlot(instance.syncId, 0, 1, SlotActionType.THROW, player);
 			}
 			
-			final short action = player.currentScreenHandler.getNextActionId(player.inventory);
-			minecraft.getNetworkHandler().sendPacket(new ClickSlotC2SPacket(instance.syncId, 0, 0, SlotActionType.QUICK_MOVE, new ItemStack(Items.BEDROCK), action));
+			minecraft.getNetworkHandler().sendPacket(new ClickSlotC2SPacket(instance.syncId, instance.nextRevision(), 0, 0, SlotActionType.QUICK_MOVE, new ItemStack(Items.BEDROCK), new Int2ObjectOpenHashMap<ItemStack>()));
 		}
 	}
 }

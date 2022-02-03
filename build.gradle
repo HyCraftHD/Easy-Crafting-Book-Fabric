@@ -1,10 +1,13 @@
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
+	id 'fabric-loom' version '0.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -13,11 +16,11 @@ group = project.maven_group
 repositories {
 	maven { url "https://maven.shedaniel.me/" }
 	maven {
-        url "https://maven.terraformersmc.com/releases/"
-        content {
-            includeGroup "com.terraformersmc"
-        }
-    }
+		url "https://maven.terraformersmc.com/releases/"
+		content {
+			includeGroup "com.terraformersmc"
+		}
+	}
 }
 
 dependencies {
@@ -25,28 +28,27 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
+	
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	modApi("me.shedaniel.cloth:cloth-config-fabric:4.11.19") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    
-    modCompileOnly("com.terraformersmc:modmenu:1.16.8") {
-        transitive(false)
-    }
-    modRuntime("com.terraformersmc:modmenu:1.16.8") {
-        transitive(false)
-    }
-
+	modApi("me.shedaniel.cloth:cloth-config-fabric:6.1.48") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+	modCompileOnly("com.terraformersmc:modmenu:3.0.1") {
+		transitive(false)
+	}
+	modRuntimeOnly("com.terraformersmc:modmenu:3.0.1") {
+		transitive(false)
+	}
+	
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }
 
 processResources {
 	inputs.property "version", project.version
-
+	
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
@@ -58,13 +60,13 @@ tasks.withType(JavaCompile).configureEach {
 	// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
 	// If Javadoc is generated, this must be specified in that task too.
 	it.options.encoding = "UTF-8"
-
+	
 	// The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
 	// JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
 	// We'll use that if it's available, but otherwise we'll use the older option.
 	def targetVersion = 8
 	if (JavaVersion.current().isJava9Compatible()) {
-		 it.options.release = targetVersion
+		it.options.release = targetVersion
 	}
 }
 
@@ -94,7 +96,7 @@ publishing {
 			}
 		}
 	}
-
+	
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
 		// Add repositories to publish to here.

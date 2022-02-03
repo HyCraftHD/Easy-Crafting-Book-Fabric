@@ -15,8 +15,8 @@ public abstract class ScreenHandlerMixin {
 	
 	private final ScreenHandler instance = ((ScreenHandler) (Object) this);
 	
-	@Inject(method = "setStackInSlot(ILnet/minecraft/item/ItemStack;)V", at = @At("RETURN"))
-	private void handleSetItem(int slot, ItemStack stack, CallbackInfo info) {
+	@Inject(method = "setStackInSlot(IILnet/minecraft/item/ItemStack;)V", at = @At("RETURN"))
+	private void handleSetItem(int slot, int revision, ItemStack stack, CallbackInfo info) {
 		if (instance instanceof CraftingScreenHandler && slot == 0) {
 			EasyCraftingBookMod.handleCrafting((CraftingScreenHandler) instance);
 		}
